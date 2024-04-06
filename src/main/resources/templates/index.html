@@ -1,0 +1,29 @@
+<!DOCTYPE  html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Caramba url shortener</title>
+</head>
+
+<body>
+
+<header>
+</header>
+
+<section>
+    <h2>URL shortener allows to create a shortened link making it easy to share</h2>
+
+    <form action="#" th:action="@{/}" th:object="${urlModel}" method="post">
+        <p>Url: <input type="text" th:field="*{urlLong}"/></p>
+        <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    </form>
+
+    <div th:if="${urlModel.urlShort}" th:text="'Short url: ' + ${urlModel.urlShort}"></div>
+</section>
+
+<footer>
+    <p>Caramba url shortener.</p>
+</footer>
+
+</body>
+</html>
