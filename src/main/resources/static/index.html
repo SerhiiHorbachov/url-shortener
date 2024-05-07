@@ -1,0 +1,49 @@
+<html>
+<head>Shortener application</head>
+<body>
+<div>
+    <input id="typed_text" type="url" placeholder="type text">
+    <button id="send_data" onclick="shortenUrl()">send</button>
+    <br>
+    <span id="result_data"></span>
+</div>
+</body>
+
+<script>
+    shortenUrl = () => {
+        const url = "http://localhost:8080/api/v1/url";
+        var foundText = document.getElementById("typed_text").value;
+        var dataToSend = prepareObjectToSend(foundText);
+
+        fetch(url, buildRequest(dataToSend))
+            .then(resp => addResultToElement(resp))
+            .catch(reason => console.log('Error: ' + reason));
+    }
+
+    addResultToElement = (resp) => {
+        var span = document.getElementById('result_data');
+        while (span.firstChild) {
+            span.removeChild(span.firstChild);
+        }
+        span.appendChild(document.createTextNode('Short URL: ' + resp.headers.get('Location')));
+    }
+
+    buildRequest = (dataToSend) => {
+        return {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: dataToSend
+        }
+    }
+
+    prepareObjectToSend = (foundText) => {
+        var objectToSend = {
+            "urlLong": foundText
+        }
+
+        return JSON.stringify(objectToSend);
+    }
+</script>
+</html>
